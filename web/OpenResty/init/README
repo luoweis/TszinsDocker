@@ -1,0 +1,11 @@
+这是使用Dockerfile部署OpenResty镜像的说明文档
+初始镜像版本 tszins/web/base:V001
+更新历史：
+2016-12-13 添加--with-http_stub_status_module --with-http_gzip_static_module 模块
+更新后版本为
+修改项目目录为/www
+当前最新的版本为
+tszins/web/openresty:WWW
+修改项目目录为/www/tszins
+当前最新的版本为
+tszins/web/openresty:TszinsV1

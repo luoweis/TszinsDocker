@@ -1,0 +1,6 @@
+在OpenResty 的基础上增加了编译了php模块,作为php服务端对外提供服务。
+php 工程目录放置在/var/www/tszins_php/下
+目录下有phpinfo.php测试文件和tszins.conf nginx的配置文件
+启动容器时可以使用参数--volume 绑定本地目录到生产的容器的 /var/www/tszins/目录下
+使用实例：
+docker run -d -p 9001:8081 --name php7node1 --hostname php7node1 --volume /root/test/:/var/www/tszins_php/test/ tszins/web/php:base

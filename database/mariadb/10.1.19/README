@@ -1,0 +1,9 @@
+生产mariadb 10.1.19镜像的Dockerfile
+在启动容器的时候会启动sshd  mysqld 以及对mariadb数据库进行初步优化的脚本文件
+在supervisord.conf中配置了启动优先级，在启动容器的时候会依次启动 sshd mariadb modify.sh 
+在modify.sh脚本中定义了sleep 10，为了保证这个脚本在mariadb启动后再执行
+脚本执行完后会进行自删除的动作
+
+
+修改历史记录：
+调整bin_log format 为row模式

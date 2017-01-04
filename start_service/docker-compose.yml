@@ -1,0 +1,21 @@
+web:
+ image: 10.129.28.74:5000/um/web/openresty/php-fpm:V0.1
+ ports:
+  - "8000:80"
+  - "2222:22"
+ net: "over"
+memcached:
+ image: 10.129.28.74:5000/um/db/memcached/1.4.25:V0.1
+ ports:
+  - "2223:22"
+ expose:
+  - "11211"
+ net: "over"
+mariadb:
+ image: 10.129.28.74:5000/um/db/mariadb/10.0.24:V0.1
+ ports:
+  - "2224:22"
+ expose:
+  - "3306"
+ net: "over"
+
