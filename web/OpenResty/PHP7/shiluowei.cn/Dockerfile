@@ -5,15 +5,14 @@
 #
 # Dockerizing CentOS6: Dockerfile for building php 7.14
 #
-FROM      tszins/web/openresty:V001
+FROM      tszins/web/openresty:TszinsHttpsV1
 MAINTAINER luoweis <luoweis@126.com>
 
 ENV TZ "Asia/Shanghai"
 ENV TERM xterm
 #安装依赖关系
 RUN yum install -y gcc gcc-c++  make zlib zlib-devel pcre pcre-devel  libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel ncurses ncurses-devel curl curl-devel e2fsprogs e2fsprogs-devel krb5 krb5-devel openssl openssl-devel openldap openldap-devel nss_ldap openldap-clients openldap-servers libxslt-devel
-#创建相关目录
-RUN mkdir -p /usr/local/tszins
+
 #上传php源码包
 ADD php-7.0.14RC1.tar.gz  /usr/local/tszins
 #编译
@@ -60,18 +59,18 @@ cp /usr/local/tszins/php/etc/php-fpm.conf.default /usr/local/tszins/php/etc/php-
 cp /usr/local/tszins/php/etc/php-fpm.d/www.conf.default /usr/local/tszins/php/etc/php-fpm.d/www.conf && \
 cp -r -f  ./sapi/fpm/init.d.php-fpm /etc/init.d/php-fpm && \
 chmod +x /etc/init.d/php-fpm 
-#上传nginx 配置文件
-RUN cd /usr/local/tszins/nginx/conf && mv nginx.conf nginx.conf_`date +%F`
-ADD nginx.conf /usr/local/tszins/nginx/conf
 #创建php项目目录
-RUN mkdir -p /var/www/tszins_php
-ADD tszins.conf /var/www/tszins_php
-ADD phpinfo.php /var/www/tszins_php
+ADD nginx.conf /usr/local/tszins/nginx/conf/
+ADD shiluowei.conf /www/tszins/
+ADD phpinfo.php /www/tszins/
+#上传ssl证书
+ADD server.crt /www/tszins/key
+ADD server.key /www/tszins/key
 #上传supervisord.conf
 ADD supervisord.conf /etc/supervisord.conf
 #对外发布端口号
 EXPOSE 22
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 80
+EXPOSE 443
 
 ENTRYPOINT ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisord.conf"]
